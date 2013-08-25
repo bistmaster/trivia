@@ -1,0 +1,25 @@
+{
+  "name": "Trivia",
+  "version": "0.0.1",
+  "description": "Its a comprehensive online trivia with real-time interaction support",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bistmaster@bitbucket.org/bistmaster/trivia.git"
+  },
+  "keywords": [
+    "trivia",
+    "online",
+    "trivia",
+    "node.js",
+    "trivia",
+    "real",
+    "time",
+    "trivia"
+  ],
+  "author": "bistmaster",
+  "license": "MIT License"
+}
