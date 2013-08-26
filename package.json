@@ -21,5 +21,9 @@
     "trivia"
   ],
   "author": "bistmaster",
-  "license": "MIT License"
+  "license": "MIT License",
+  "dependencies": {
+    "ejs": "~0.8.4",
+    "mongoose": "~3.6.18"
+  }
 }

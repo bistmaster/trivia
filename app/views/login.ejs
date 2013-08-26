@@ -1,10 +1,27 @@
+<!doctype html>
 <html>
 <head>
 	<title>Welcome to Online Trivia</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
 </head>
 <body>
-
+	<div class"row">
+		<div class="col-md-6"><h2><%=name %></h2></div>
+		<div class="col-md-6">
+			<form class="form-inline" role="form">
+			  <div class="form-group">
+			    <label class="sr-only" for="username">Email address</label>
+			    <input type="username" class="form-control" id="username" placeholder="enter username">
+			  </div>
+			  <div class="form-group">
+			    <label class="sr-only" for="password">Password</label>
+			    <input type="password" class="form-control" id="password" placeholder="password">
+			  </div>
+			  <button type="submit" class="btn btn-default">Sign in</button>				
+			</form>	
+		</div>
+	</div>
 </body>
 	<script type="text/javascript" src="/js/bootstrap.js"></script>
 </html>
