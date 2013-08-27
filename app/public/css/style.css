@@ -1,0 +1,24 @@
+*{
+   margin:0;
+   padding:0;
+}
+
+body{
+   text-align:center; 
+}
+
+#wrapper {
+   width:1280px;
+   margin:0 auto;
+   text-align:left;
+   margin-top: 5px;
+   /* border: 1px solid #000; */
+}
+
+.nav li a {
+	padding: 15px!important;
+}
+
+.nav-tabs li a{
+	border-radius: 4px 13px 0 0!important;
+}

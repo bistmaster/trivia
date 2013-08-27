@@ -16,9 +16,8 @@ app.configure(function () {
 
 var render = new Render();
 
-app.get('/', render.postRegister);
+app.get('/', render.getIndex);
 app.post('/login', render.postLogin);
-
 app.post('/register', render.postRegister);
 
 
