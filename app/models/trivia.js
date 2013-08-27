@@ -36,12 +36,13 @@ Trivia.prototype.saveUser = function(query, callback) {
 	var self = this;
 	console.log('connection is ' + this.connected);
 	if(this.connected){
-		self.User.firstname = "bethoveen";
-		self.User.lastname = "todino";
-		self.User.email = "bistmaster@hotmail.com";
-		self.User.username = "bistmaster@hotmail.com";
-		self.User.password = "pass123";
-		self.User.find({}, function(err, users){
+		var user = new self.User();
+		user.firstname = "bethoveen";
+		user.lastname = "todino";
+		user.email = "bistmaster@hotmail.com";
+		user.username = "bistmaster@hotmail.com";
+		user.password = "pass123";
+		user.save(function(err) {
 			console.log('finding', users);	
 		});
 	}
