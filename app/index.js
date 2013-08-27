@@ -1,9 +1,22 @@
 
 var express = require('express'),
-	app = express(),
-	Render= require('./routes/routes');
+	expressValidator = require('express-validator');
+	passport = require('passport'),
+ 	LocalStrategy = require('passport-local').Strategy,
+ 	crypto = require('crypto');
+ 	Render = require('./routes/routes'),
+ 	app = express(),
+ 	routes = new Render(passport, LocalStrategy);
 
+passport.use(new LocalStrategy(routes.setAuthentication));
 
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    done(null, id);
+});
 
 app.configure(function () {
 	app.set('view engine', 'ejs');
@@ -11,14 +24,20 @@ app.configure(function () {
 	app.use(express.static(__dirname + '/public/'));
 	app.use(express.logger('dev'));	
 	app.use(express.bodyParser());
+	app.use( express.cookieParser());
+	app.use(express.session({ secret: 'keyboard cat' }));
+	app.use(passport.initialize());
+	app.use(passport.session());	
+	app.use(expressValidator([]));
 	app.use(app.router);
 });	
 
-var render = new Render();
 
-app.get('/', render.getIndex);
-app.post('/login', render.postLogin);
-app.post('/register', render.postRegister);
+
+
+app.get('/', routes.getIndex);
+app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login222', failureFlash: true  }), routes.postLogin);
+app.post('/register', routes.postRegister);
 
 
 app.listen(9333, function(){

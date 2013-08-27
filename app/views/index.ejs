@@ -13,12 +13,12 @@
 					<li class="active">
 						<a href="#">Home</a>
 					</li>
-					<form class="navbar-form pull-right" role="form">
+					<form class="navbar-form pull-right" role="form" method="post" action="/login">
 					  <div class="form-group">
-					    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+					    <input type="text" class="form-control" id="usernameLogin" placeholder="Username" name="username">
 					  </div>
 					  <div class="form-group">
-					    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+					    <input type="password" class="form-control" id="passwordLogin" placeholder="Password" name="password">
 					  </div>
 					  <button type="submit" class="btn btn-default">Sign in</button>
 					  <a data-toggle="modal" href="#myModal" class="btn btn-primary">Register</a>				  
@@ -27,69 +27,64 @@
 				</ul>	
 		</div>	
 	</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			  <h4 class="modal-title" align='left'>Register</h4>
-			</div>
+	<!-- Register Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form class="form-horizontal" role="form" action="/register" method="POST">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				  <h4 class="modal-title" align='left'>Register</h4>
+				</div>
+				
+				<div class="modal-body">
+						  <div class="form-group">
+						    <label for="firstname" class="col-lg-4 control-label">Firstname</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="firstname" placeholder="Firstname" name="firstname">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="lastname" class="col-lg-4 control-label">Lastname</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="lastname" placeholder="Lastname" name="lastname">
+						    </div>
+						  </div>	  
+						  <div class="form-group">
+						    <label for="email" class="col-lg-4 control-label">Email</label>
+						    <div class="col-lg-8">
+						      <input type="email" class="form-control" id="email" placeholder="Email" name="email">
+						    </div>
+						  </div>				  			
+						  <div class="form-group">
+						    <label for="username" class="col-lg-4 control-label">Username</label>
+						    <div class="col-lg-8">
+						      <input type="text" class="form-control" id="username" placeholder="Username" name="username">
+						    </div>
+						  </div>	
+						  <div class="form-group">
+						    <label for="password" class="col-lg-4 control-label">Password</label>
+						    <div class="col-lg-8">
+						      <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+						    </div>
+						  </div>	
+						  <div class="form-group">
+						    <label for="retype-password" class="col-lg-4 control-label">Re-type Password</label>
+						    <div class="col-lg-8">
+						      <input type="password" class="form-control" id="retype-password" placeholder="Retype Password" name="retype-password">
+						    </div>
+						  </div>					  				  				  		  
+						
+				</div>
 
-			<div class="modal-body">
-					<form class="form-horizontal" role="form">					
-					  <div class="form-group">
-					    <label for="inputEmail1" class="col-lg-4 control-label">Firstname</label>
-					    <div class="col-lg-8">
-					      <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label for="inputEmail1" class="col-lg-4 control-label">Lastname</label>
-					    <div class="col-lg-8">
-					      <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
-					    </div>
-					  </div>	  
-					  <div class="form-group">
-					    <label for="inputEmail1" class="col-lg-4 control-label">Email</label>
-					    <div class="col-lg-8">
-					      <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label for="inputEmail1" class="col-lg-4 control-label">Re-type Email</label>
-					    <div class="col-lg-8">
-					      <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
-					    </div>
-					  </div>					  			
-					  <div class="form-group">
-					    <label for="inputEmail1" class="col-lg-4 control-label">Username</label>
-					    <div class="col-lg-8">
-					      <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
-					    </div>
-					  </div>	
-					  <div class="form-group">
-					    <label for="inputEmail1" class="col-lg-4 control-label">Password</label>
-					    <div class="col-lg-8">
-					      <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
-					    </div>
-					  </div>	
-					  <div class="form-group">
-					    <label for="inputEmail1" class="col-lg-4 control-label">Re-type Password</label>
-					    <div class="col-lg-8">
-					      <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
-					    </div>
-					  </div>					  				  				  		  
-					</form>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  <input type="submit" class="btn btn-primary" value="Create"/>
+				</div>
+				</form>
 			</div>
-
-			<div class="modal-footer">
-			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			  <button type="button" class="btn btn-primary">Create</button>
-			</div>
-
-		</div><!-- /.modal-content -->
-	</div>	
-</div>
+		</div>	
+	</div>
 <script type="text/javascript" src="http://codeorigin.jquery.com/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/transition.js"></script>
