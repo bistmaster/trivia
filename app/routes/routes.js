@@ -1,12 +1,8 @@
-var db = require('../models/trivia'),
- 	_ = require('underscore'),
- 	trivia = new db.Trivia({host: '127.0.0.1', name: 'trivia' , db: 'trivia'});
-
-module.exports = function(passport, LocalStrategy) { 
+module.exports = function(passport, LocalStrategy, _ , model) { 
 	var self = this;
 
 	self.setAuthentication = function (username, password, done) {
-		trivia.findUser(username, password, function (err, user) {
+		model.findUser(username, password, function (err, user) {
 			if (err instanceof Error) { 
 				return done(err); 
 			}
@@ -26,7 +22,7 @@ module.exports = function(passport, LocalStrategy) {
 
 	self.postRegister = function (req, res) {
 		self.sanitize(req);
-		trivia.saveUser(req.body, function(err, record){
+		model.saveUser(req.body, function(err, record){
 			if(err instanceof Error){
 				res.statusCode = 500;
 				res.end('Something is wrong');			
@@ -54,6 +50,6 @@ module.exports = function(passport, LocalStrategy) {
 	}; 
 
 	self.authenticate = function () {
-		passport.authenticate('local', { successRedirect: 'www.google.com', failureRedirect: '/loginadad', failureFlash: true });
+		return ('local', { successRedirect: 'www.google.com', failureRedirect: '/loginadad', failureFlash: true });
 	};
 }

@@ -1,15 +1,20 @@
 
-var express = require('express'),
-	expressValidator = require('express-validator');
-	passport = require('passport'),
- 	LocalStrategy = require('passport-local').Strategy,
- 	crypto = require('crypto');
- 	Render = require('./routes/routes'),
- 	app = express(),
- 	routes = new Render(passport, LocalStrategy);
+var express = require('express');
+var	_ = require('underscore');
+var	mongoose = require('mongoose');
+var	expressValidator = require('express-validator');
+var	passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var crypto = require('crypto');
+var Render = require('./routes/routes');
+var app = express();
+var Model = require('./models/model');
+var	trivia = new Model(mongoose, crypto);
+var routes = new Render(passport, LocalStrategy, _, trivia);
+var dbPath = 'mongodb://127.0.0.1/trivia';
+var port = 9292;
 
 passport.use(new LocalStrategy(routes.setAuthentication));
-
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
@@ -30,17 +35,19 @@ app.configure(function () {
 	app.use(passport.session());	
 	app.use(expressValidator([]));
 	app.use(app.router);
+
+	mongoose.connect(dbPath, function onMongooseError(err){
+		if (err) throw err;
+		console.log('Connected to db');
+	});
+
 });	
-
-
-
 
 app.get('/', routes.getIndex);
 app.get('/login', routes.getLogin);
 app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login'}), routes.postLogin);
 app.post('/register', routes.postRegister);
 
-
-app.listen(9333, function(){
-	console.log('Listening on localhost:9292');
+app.listen(port, function(){
+	console.log('Listening on localhost:' + port);
 })
