@@ -29,7 +29,7 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 	};
 
 	self.postRegister = function (req, res) {
-		self.sanitize(req);
+		//self.sanitize(req);
 		userModel.saveUser(req.body, function(err, record){
 			if(err instanceof Error){
 				res.statusCode = 500;
@@ -52,7 +52,8 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 
 	self.sanitize = function (req) {
 		_.each(req.body, function(elem, idx){	
-			return req.sanitize(elem).xss(true);
+			console.log(elem);
+			//req.sanitize(elem).xss();
 		});		
 	}; 
 
