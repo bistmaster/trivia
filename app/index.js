@@ -6,11 +6,11 @@ var	expressValidator = require('express-validator');
 var	passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var crypto = require('crypto');
-var Render = require('./routes/routes');
+var Routes = require('./routes/routes');
 var app = express();
 var Model = require('./models/model');
 var	trivia = new Model(mongoose, crypto);
-var routes = new Render(passport, LocalStrategy, _, trivia);
+var routes = new Routes(passport, LocalStrategy, _, trivia);
 var dbPath = 'mongodb://127.0.0.1/trivia';
 var port = 9292;
 
@@ -29,7 +29,7 @@ app.configure(function () {
 	app.use(express.static(__dirname + '/public/'));
 	app.use(express.logger('dev'));	
 	app.use(express.bodyParser());
-	app.use( express.cookieParser());
+	app.use(express.cookieParser());
 	app.use(express.session({ secret: 'keyboard cat' }));
 	app.use(passport.initialize());
 	app.use(passport.session());	
