@@ -36,7 +36,8 @@ app.configure(function () {
 
 
 app.get('/', routes.getIndex);
-app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login222', failureFlash: true  }), routes.postLogin);
+app.get('/login', routes.getLogin);
+app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login'}), routes.postLogin);
 app.post('/register', routes.postRegister);
 
 

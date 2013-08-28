@@ -36,6 +36,12 @@ module.exports = function(passport, LocalStrategy) {
 		});
 	};
 
+	self.getLogin = function (req, res) {
+		console.log('redirected here');
+		var data = {title: 'Login'};
+		res.render('login', data);
+	};
+
 	self.getLogout = function (req, res) {
 		var data = {title: 'Sample Site4'};
 		res.render('register', data);

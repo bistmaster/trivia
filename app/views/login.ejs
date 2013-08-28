@@ -4,24 +4,57 @@
 	<title>Welcome to Online Trivia</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<div class"row">
-		<div class="col-md-6"><h2><%=name %></h2></div>
-		<div class="col-md-6">
-			<form class="form-inline" role="form">
-			  <div class="form-group">
-			    <label class="sr-only" for="username">Email address</label>
-			    <input type="username" class="form-control" id="username" placeholder="enter username">
-			  </div>
-			  <div class="form-group">
-			    <label class="sr-only" for="password">Password</label>
-			    <input type="password" class="form-control" id="password" placeholder="password">
-			  </div>
-			  <button type="submit" class="btn btn-default">Sign in</button>				
-			</form>	
-		</div>
+	<div id="wrapper">		
+		<div class="row">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#">Home</a>
+				</li>
+			</ul>	
+		</div>	
+		<div class="row">
+			<div style="margin-top: 20px"></div>
+			<div class="col-md-3">
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title">Please login</h3>
+				  </div>
+				  <div class="panel-body">
+					<form class="form-horizontal" role="form" action="/login" method="post">
+						<div class="form-group">
+							<label for="usernameLogin" class="col-lg-3 control-label">Username</label>
+							<div class="col-lg-7">
+						  		<input type="text" class="form-control" id="usernameLogin" placeholder="Username" name="username">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="passwordLogin" class="col-lg-3 control-label">Password</label>
+							<div class="col-lg-7">
+						  		<input type="password" class="form-control" id="passwordLogin" placeholder="Password" name="password">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-offset-3 col-lg-7">
+						  		<input type="submit" class="btn btn-primary" value="Sign in" />
+						  		<input type="reset" class="btn btn-primary" value="Clear" />
+						  		<br/><br/>
+						  		<a href="/">Back to home</a>
+							</div>
+						</div>
+					</form>	
+				  </div>
+				</div>				
+				
+			</div>	
+			<div class="col-md-3"></div>
+		</div>	
 	</div>
+
 </body>
 	<script type="text/javascript" src="/js/bootstrap.js"></script>
 </html>
