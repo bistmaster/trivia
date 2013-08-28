@@ -1,8 +1,8 @@
-module.exports = function(passport, LocalStrategy, _ , model) { 
+module.exports = function(passport, LocalStrategy, _ , questionModel) { 
 	var self = this;
 
 	self.setAuthentication = function (username, password, done) {
-		model.findUser(username, password, function (err, user) {
+		questionModel.findUser(username, password, function (err, user) {
 			if (err instanceof Error) { 
 				return done(err); 
 			}
@@ -13,16 +13,23 @@ module.exports = function(passport, LocalStrategy, _ , model) {
 	self.getIndex = function (req, res) {
 		var data = { title: 'Online Real-time Trivia'};
 		res.render('index', data);
+
+	};
+
+	self.getHome = function (req, res) {
+		var data = { title: 'Online Real-time Trivia', authenticated: true};
+		res.render('index', data);
+
 	};
 
 	self.postLogin = function (req, res) {
-		var data = {name: 'Sample Site1'};
+		var data = {title: 'Welcome blah blah', authenticated: true};
 		res.render('index', data);
 	};
 
 	self.postRegister = function (req, res) {
 		self.sanitize(req);
-		model.saveUser(req.body, function(err, record){
+		questionModel.saveUser(req.body, function(err, record){
 			if(err instanceof Error){
 				res.statusCode = 500;
 				res.end('Something is wrong');			
@@ -33,8 +40,7 @@ module.exports = function(passport, LocalStrategy, _ , model) {
 	};
 
 	self.getLogin = function (req, res) {
-		console.log('redirected here');
-		var data = {title: 'Login'};
+		var data = {loginTitle: 'Please login'};
 		res.render('login', data);
 	};
 

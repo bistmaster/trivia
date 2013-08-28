@@ -28,6 +28,7 @@
     "underscore": "~1.5.1",
     "express-validator": "~0.8.0",
     "passport": "~0.1.17",
-    "passport-local": "~0.1.6"
+    "passport-local": "~0.1.6",
+    "connect-flash": "~0.1.1"
   }
 }

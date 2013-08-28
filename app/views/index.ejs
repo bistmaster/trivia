@@ -3,7 +3,7 @@
 <head>
 	<title><%=title%></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<link href="/css/bootstrap.css" rel="stylesheet" media="screen">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
@@ -12,21 +12,25 @@
 				<ul class="nav nav-tabs">
 					<li class="active">
 						<a href="#">Home</a>
-					</li>
-					<form class="navbar-form pull-right" role="form" method="post" action="/login">
-					  <div class="form-group">
-					    <input type="text" class="form-control" id="usernameLogin" placeholder="Username" name="username">
-					  </div>
-					  <div class="form-group">
-					    <input type="password" class="form-control" id="passwordLogin" placeholder="Password" name="password">
-					  </div>
-					  <button type="submit" class="btn btn-default">Sign in</button>
-					  <a data-toggle="modal" href="#myModal" class="btn btn-primary">Register</a>				  
-					</form>
-
+					</li><% if(!authenticated) { %>
+						<form class="navbar-form pull-right" role="form" method="post" action="/login">
+							<div class="form-group">
+								<input type="text" class="form-control" id="usernameLogin" placeholder="Username" name="username">
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" id="passwordLogin" placeholder="Password" name="password">
+							</div>
+						<button type="submit" class="btn btn-primary">Sign in</button>
+						<a data-toggle="modal" href="#myModal" class="btn btn-primary">Register</a>				  
+						</form>
+					<% } else { %>	
+						<p class="navbar-text pull-right">Signed in as <strong><%=name%></strong> <a href="/logout" class="btn btn-default btn-sm">Logout</a>	
+						</p>				
+					<% } %>
 				</ul>	
 		</div>	
 	</div>
+	<% if(!authenticated) { %>
 	<div class="jumbotron">
 		<div class="container">
 			<div class="page-header">
@@ -35,67 +39,77 @@
 			</div>
 		</div>
 	</div>
-	<!-- Register Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form class="form-horizontal" role="form" action="/register" method="POST">
 				<div class="modal-header">
-				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				  <button type="button" class="close" data-dismiss="modal" data-target="#myModal" aria-hidden="true">&times;</button>
 				  <h4 class="modal-title" align='left'>Register</h4>
 				</div>
 				
 				<div class="modal-body">
-						  <div class="form-group">
-						    <label for="firstname" class="col-lg-4 control-label">Firstname</label>
-						    <div class="col-lg-8">
-						      <input type="text" class="form-control" id="firstname" placeholder="Firstname" name="firstname">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="lastname" class="col-lg-4 control-label">Lastname</label>
-						    <div class="col-lg-8">
-						      <input type="text" class="form-control" id="lastname" placeholder="Lastname" name="lastname">
-						    </div>
-						  </div>	  
-						  <div class="form-group">
-						    <label for="email" class="col-lg-4 control-label">Email</label>
-						    <div class="col-lg-8">
-						      <input type="email" class="form-control" id="email" placeholder="Email" name="email">
-						    </div>
-						  </div>				  			
-						  <div class="form-group">
-						    <label for="username" class="col-lg-4 control-label">Username</label>
-						    <div class="col-lg-8">
-						      <input type="text" class="form-control" id="username" placeholder="Username" name="username">
-						    </div>
-						  </div>	
-						  <div class="form-group">
-						    <label for="password" class="col-lg-4 control-label">Password</label>
-						    <div class="col-lg-8">
-						      <input type="password" class="form-control" id="password" placeholder="Password" name="password">
-						    </div>
-						  </div>	
-						  <div class="form-group">
-						    <label for="retype-password" class="col-lg-4 control-label">Re-type Password</label>
-						    <div class="col-lg-8">
-						      <input type="password" class="form-control" id="retype-password" placeholder="Retype Password" name="retype-password">
-						    </div>
-						  </div>					  				  				  		  
-						
+					<div class="form-group">
+					<label for="firstname" class="col-lg-4 control-label">Firstname</label>
+						<div class="col-lg-8">
+						  	<input type="text" class="form-control" id="firstname" placeholder="Firstname" name="firstname">
+						</div>
+					</div>
+					<div class="form-group">
+					<label for="lastname" class="col-lg-4 control-label">Lastname</label>
+						<div class="col-lg-8">
+						  	<input type="text" class="form-control" id="lastname" placeholder="Lastname" name="lastname">
+						</div>
+					</div>	  
+					<div class="form-group">
+					<label for="email" class="col-lg-4 control-label">Email</label>
+						<div class="col-lg-8">
+						  	<input type="email" class="form-control" id="email" placeholder="Email" name="email">
+						</div>
+					</div>				  			
+					<div class="form-group">
+					<label for="username" class="col-lg-4 control-label">Username</label>
+						<div class="col-lg-8">
+						  	<input type="text" class="form-control" id="username" placeholder="Username" name="username">
+						</div>
+					</div>	
+					<div class="form-group">
+					<label for="password" class="col-lg-4 control-label">Password</label>
+						<div class="col-lg-8">
+						  	<input type="password" class="form-control" id="password" placeholder="Password" name="password">
+						</div>
+					</div>	
+					<div class="form-group">
+					<label for="retype-password" class="col-lg-4 control-label">Re-type Password</label>
+						<div class="col-lg-8">
+						  	<input type="password" class="form-control" id="retype-password" placeholder="Retype Password" name="retype-password">
+						</div>
+					</div>					  				  				  		  					
 				</div>
 
 				<div class="modal-footer">
-				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-default" data-dismiss="modal" data-target="#myModal">Close</button>
 				  <input type="submit" class="btn btn-primary" value="Create"/>
 				</div>
 				</form>
 			</div>
 		</div>	
-	</div>
-<script type="text/javascript" src="http://codeorigin.jquery.com/jquery-1.10.2.js"></script>
+	</div>	
+	<% } %>
+	<!-- Register Modal -->
+<script type="text/javascript" src="/js/jquery.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
-<script type="text/javascript" src="/js/transition.js"></script>
+<script type="text/javascript" src="/js/popover.js"></script>
+<script type="text/javascript" src="/js/affix.js"></script>
+<script type="text/javascript" src="/js/alert.js"></script>
+<script type="text/javascript" src="/js/button.js"></script>
+<script type="text/javascript" src="/js/carousel.js"></script>
+<script type="text/javascript" src="/js/collapse.js"></script>
+<script type="text/javascript" src="/js/dropdown.js"></script>
 <script type="text/javascript" src="/js/modal.js"></script>
+<script type="text/javascript" src="/js/scrollspy.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>
+<script type="text/javascript" src="/js/tooltip.js"></script>
+<script type="text/javascript" src="/js/transition.js"></script>
 </body>
 </html>
