@@ -1,5 +1,6 @@
 
 var express = require('express');
+var util = require('util')
 var	_ = require('underscore');
 var	mongoose = require('mongoose');
 var	expressValidator = require('express-validator');
@@ -12,15 +13,6 @@ var UserRoutes = require('./routes/user');
 var QuestionRoutes = require('./routes/user');
 var HelperRoutes = require('./routes/helper');
 
-var User = require('./models/user');
-var	userModel= new User(mongoose, crypto);
-
-var Question = require('./models/question');
-var	questionModel = new Question(mongoose, crypto);
-
-var user = new UserRoutes(passport, LocalStrategy, _, userModel);
-var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
-var helper = new HelperRoutes();
 
 var dbPath = 'mongodb://127.0.0.1/trivia';
 var port = 9999;
@@ -42,15 +34,14 @@ app.configure(function () {
 	app.use(express.logger('dev'));
 	app.use(express.cookieParser());		
 	app.use(express.bodyParser());
+	app.use(expressValidator());
 	app.use(express.methodOverride());
 	app.use(express.session({ secret: 'keyboard cat' }));
 	app.use(flash());
 	app.use(passport.initialize());
 	app.use(passport.session());
 	app.use(app.router);	
-	app.use(expressValidator([]));
 	
-
 	mongoose.connect(dbPath, function onMongooseError(err){
 		if (err) throw err;
 		console.log('Connected to db');
@@ -58,8 +49,17 @@ app.configure(function () {
 
 });	
 
-passport.use(new LocalStrategy(user.setAuthentication));
+var User = require('./models/user');
+var	userModel= new User(mongoose, crypto);
 
+var Question = require('./models/question');
+var	questionModel = new Question(mongoose, crypto);
+
+var user = new UserRoutes(passport, LocalStrategy, _, userModel, expressValidator);
+var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
+var helper = new HelperRoutes();
+
+passport.use(new LocalStrategy(user.setAuthentication));
 
 // Handle all the user interaction routes
 app.get('/', user.getIndex);
@@ -67,7 +67,10 @@ app.get('/login', user.getLogin);
 app.post('/login', passport.authenticate('local', helper.redirect));
 app.post('/register', user.postRegister);
 app.get('/home', user.isAuthenticated, user.getHome);
-app.get('/logout', user.isAuthenticated, user.getLogout);
+app.get('/logout', user.getLogout);
+
+
+//handle unavailable site
 app.get('/*', helper.index);
 
 

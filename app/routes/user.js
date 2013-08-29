@@ -1,4 +1,4 @@
-module.exports = function(passport, LocalStrategy, _ , userModel) { 
+module.exports = function(passport, LocalStrategy, _ , userModel, validator) { 
 	var self = this;
 
 	self.setAuthentication = function (username, password, done) {
@@ -24,13 +24,14 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 		res.render('home', data);
 	};
 
-	self.postLogin = function (req, res) {
-		var data = {title: 'Welcome blah blah', authenticated: true};
-		res.render('index', data);
-	};
-
 	self.postRegister = function (req, res) {
-		//self.sanitize(req);
+		console.log(req.sanitize);
+
+		req.onValidationError(function (msg) {
+        //Redirect the user with error 'msg'
+    	});
+		req.sanitize('firstname').escape();
+		req.sanitize(req.body.firstname).escape();    	
 		userModel.saveUser(req.body, function(err, user){
 			if(err instanceof Error){
 				res.statusCode = 500;
@@ -60,14 +61,9 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 
 	self.sanitize = function (req) {
 		_.each(req.body, function(elem, idx){	
-			console.log(elem);
-			//req.sanitize(elem).xss();
+			rereq.sanitize(elem).entityDecode().escape();
 		});		
 	}; 
-
-	self.authenticate = function () {
-		return ('local', { successRedirect: 'www.google.com', failureRedirect: '/loginadad', failureFlash: true });
-	};
 
 	self.isAuthenticated = function (req, res, next) {
   		if (req.isAuthenticated()) { 
