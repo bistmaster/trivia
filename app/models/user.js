@@ -17,7 +17,7 @@ module.exports = function(mongoose, crypto) {
 			if(err){
 				return callback(new Error('Cannot save to database'), false);
 			} else {
-				return callback(user, true);
+				return callback(true, user);
 			}
 		});
 	};

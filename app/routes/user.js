@@ -30,12 +30,19 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 
 	self.postRegister = function (req, res) {
 		//self.sanitize(req);
-		userModel.saveUser(req.body, function(err, record){
+		userModel.saveUser(req.body, function(err, user){
 			if(err instanceof Error){
 				res.statusCode = 500;
 				res.end('Something is wrong');			
 			} else {
-				res.redirect('/');
+				//res.redirect('/');
+				req.login(user, function(err){
+					if(err) { return err; }	
+					else {
+						req.session.user = user;	
+						return res.redirect('/home');
+					}
+				});
 			}
 		});
 	};
