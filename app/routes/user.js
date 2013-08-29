@@ -21,7 +21,7 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 		var fullname = req.session.user.firstname + ' ' + req.session.user.lastname;
 		var user = req.session.user;
 		var data = { title: 'Online Real-time Trivia', authenticated: true, name: fullname, profile : user};	
-		res.render('index', data);
+		res.render('home', data);
 	};
 
 	self.postLogin = function (req, res) {

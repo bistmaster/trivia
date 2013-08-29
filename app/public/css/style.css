@@ -26,3 +26,16 @@ body{
 .navbar-text {
    margin-top: 6px!important;
 }
+
+.divider {
+   margin-top: 15px;
+   padding: 2px 2px 2px 2px;
+}
+
+.panel-footer {
+   padding: 10px 0px!important;
+}
+
+.chatBox {
+   height:500px;
+}

@@ -10,6 +10,7 @@ var flash = require('connect-flash');
 
 var UserRoutes = require('./routes/user');
 var QuestionRoutes = require('./routes/user');
+var HelperRoutes = require('./routes/helper');
 
 var User = require('./models/user');
 var	userModel= new User(mongoose, crypto);
@@ -19,6 +20,7 @@ var	questionModel = new Question(mongoose, crypto);
 
 var user = new UserRoutes(passport, LocalStrategy, _, userModel);
 var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
+var helper = new HelperRoutes();
 
 var dbPath = 'mongodb://127.0.0.1/trivia';
 var port = 9999;
@@ -62,10 +64,12 @@ passport.use(new LocalStrategy(user.setAuthentication));
 // Handle all the user interaction routes
 app.get('/', user.getIndex);
 app.get('/login', user.getLogin);
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/home', failureFlash: true }));
+app.post('/login', passport.authenticate('local', helper.redirect));
 app.post('/register', user.postRegister);
 app.get('/home', user.isAuthenticated, user.getHome);
 app.get('/logout', user.isAuthenticated, user.getLogout);
+app.get('/*', helper.index);
+
 
 app.listen(port, function(){
 	console.log('Listening on localhost:' + port); 
