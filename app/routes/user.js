@@ -19,7 +19,8 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 
 	self.getHome = function (req, res) {
 		var fullname = req.session.user.firstname + ' ' + req.session.user.lastname;
-		var data = { title: 'Online Real-time Trivia', authenticated: true, name: fullname};	
+		var user = req.session.user;
+		var data = { title: 'Online Real-time Trivia', authenticated: true, name: fullname, profile : user};	
 		res.render('index', data);
 	};
 
