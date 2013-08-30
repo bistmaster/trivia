@@ -8,7 +8,7 @@ body{
 }
 
 #wrapper {
-   width:1280px;
+   width:1260px;
    margin:0 auto;
    text-align:left;
    margin-top: 5px;
@@ -39,3 +39,16 @@ body{
 .chatBox {
    height:500px;
 }
+
+.banner{
+   margin-top: 1px;
+   padding-left: 10px;
+   width: inherit;
+   height: 200px;
+   background: #e2e2e2;
+}
+
+.page-header {
+   border-bottom:0px!important;
+}
+

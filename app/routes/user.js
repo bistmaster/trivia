@@ -1,7 +1,9 @@
 module.exports = function(passport, LocalStrategy, _ , userModel, validator) { 
 	var self = this;
 
-	self.setAuthentication = function (username, password, done) {
+
+
+	self.setAuthenticationLocal = function (username, password, done) {
 		userModel.findUser(username, password, function (err, user) {
 			if (err) { return done(err); }
 			if (!user) {
@@ -11,6 +13,15 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 
 		});
 	};
+
+	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
+		userModel.findUserById(profile, function(err, user) {
+			if (err instanceof Err) { return done(err); }
+		 	 	done(null, user);
+		});
+	};
+
+
 
 	self.getIndex = function (req, res) {
 		var data = { title: 'Online Real-time Trivia', authenticated: false };

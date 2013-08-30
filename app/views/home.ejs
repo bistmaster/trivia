@@ -14,18 +14,20 @@
 						<a href="#">Home</a>
 					</li>
 						<p class="navbar-text pull-right">Signed in as <strong><%=name%></strong> 
-							<a data-toggle="modal" href="#myModal" class="btn btn-default btn-sm">Edit Profile</a>	
-							<a href="/logout" class="btn btn-default btn-sm">Logout</a>	
+							<a data-toggle="modal" href="#myModal" class="btn btn-primary btn-sm">Edit Profile</a>	
+							<a href="/logout" class="btn btn-primary btn-sm">Logout</a>	
 						</p>				
 				</ul>	
 		</div>	
 		<div class="divider">
 			<div class="panel panel-default">
-				<div class="panel-heading">
+				<div class="panel-heading" id="headPanel">
 					<h3 class="panel-title">Welcome to Trivia</h3>
 				</div>
 				<div class="panel-body">
-					<div class="chatBox"></div>
+					<div class="chatBox" data-spy="scroll" data-target="#headPanel" id="chatBox">
+
+					</div>
 				</div>
 				<div class="panel-footer">
 					<div class="row">

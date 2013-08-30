@@ -34,6 +34,20 @@ module.exports = function(mongoose, crypto) {
 		});
 	};
 
+	self.findUserById = function(fbProfile, callback) {
+		console.log('profile', fbProfile);
+		User.findOne({_id : fbProfile.id}, function(err, oldUser){
+			if(oldUser) { 
+				callback(null, oldUser); 
+			} else {  			
+				//var newUser = new User();
+				//newUser.firstname = fbProfile.id;
+				//newUser.lastname = 
+				callback(null, user);
+			}
+		});		
+	};
+
 	self.updateUser = function(id, query){
 		//User.findAndModify(_id: id,)
 	};

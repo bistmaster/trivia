@@ -6,6 +6,8 @@ var	mongoose = require('mongoose');
 var	expressValidator = require('express-validator');
 var	passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
 var crypto = require('crypto');
 var flash = require('connect-flash');
 
@@ -13,10 +15,23 @@ var UserRoutes = require('./routes/user');
 var QuestionRoutes = require('./routes/user');
 var HelperRoutes = require('./routes/helper');
 
+var User = require('./models/user');
+var	userModel= new User(mongoose, crypto);
 
+var Question = require('./models/question');
+var	questionModel = new Question(mongoose, crypto);
+
+var user = new UserRoutes(passport, LocalStrategy, _, userModel, expressValidator);
+var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
+var helper = new HelperRoutes();
 var dbPath = 'mongodb://127.0.0.1/trivia';
 var port = 9999;
 
+var FB_CREDENTIALS = {
+		clientID : "515120998569772",
+		clientSecret : "4f94374127d7362bd1178cf9fabc20fd",
+		callbackURL : "/auth/facebook/callback"
+}		
 
 passport.serializeUser(function(user, done) {
     done(null, user);
@@ -49,17 +64,10 @@ app.configure(function () {
 
 });	
 
-var User = require('./models/user');
-var	userModel= new User(mongoose, crypto);
-
-var Question = require('./models/question');
-var	questionModel = new Question(mongoose, crypto);
-
-var user = new UserRoutes(passport, LocalStrategy, _, userModel, expressValidator);
-var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
-var helper = new HelperRoutes();
-
-passport.use(new LocalStrategy(user.setAuthentication));
+//Login using saved users
+passport.use(new LocalStrategy(user.setAuthenticationLocal));
+// Login using facebook
+passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
 
 // Handle all the user interaction routes
 app.get('/', user.getIndex);
@@ -68,7 +76,7 @@ app.post('/login', passport.authenticate('local', helper.redirect));
 app.post('/register', user.postRegister);
 app.get('/home', user.isAuthenticated, user.getHome);
 app.get('/logout', user.getLogout);
-
+app.get('/auth/facebook/callback', passport.authenticate('facebook', helper.redirect));
 
 //handle unavailable site
 app.get('/*', helper.index);
