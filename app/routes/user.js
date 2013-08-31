@@ -15,10 +15,10 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 	};
 
 	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
-		//console.log(profile);
+		console.log('OK got it');
 		try{
-			var json = JSON.parse(profile);
-			var profile = parse(json);
+			//var json = JSON.parse(profile);
+			var profile2 = parse(profile);
 		} catch(ex) {
 			console.log(ex); // ADD THIS LINE
 			done(new Error('Failed to parse user profile'));			
