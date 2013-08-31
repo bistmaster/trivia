@@ -18,7 +18,7 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 		//console.log(profile);
 		try{
 			var json = JSON.parse(profile);
-			console.log(json);
+			var profile = parse(json);
 		} catch(ex) {
 			console.log(ex); // ADD THIS LINE
 			done(new Error('Failed to parse user profile'));			
