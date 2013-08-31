@@ -15,18 +15,11 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 	};
 
 	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
-		console.log('OK got it ' + profile);
-		/*try{
-			//var json = JSON.parse(profile);
-			var profile2 = parse(profile);
-		} catch(ex) {
-			console.log(ex); // ADD THIS LINE
-			done(new Error('Failed to parse user profile'));			
-		}*/
-		/*userModel.findUserById(profile.id, profile, function(err, user) {
+		console.log('OK got it ' + profile.id);
+		userModel.findUserById(profile.id, profile, function(err, user) {
 			if (err instanceof Err) { return done(err); }
 		 	 	done(null, user);
-		});*/
+		});
 	};
 
 	self.setAuthenticationGoogle = function(identifier, profile, done) {
