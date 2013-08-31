@@ -3,7 +3,8 @@ var express = require('express');
 var util = require('util')
 var	_ = require('underscore');
 var	mongoose = require('mongoose');
-
+var crypto = require('crypto');
+var flash = require('connect-flash');
 var _ = require('underscore');
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
@@ -13,17 +14,13 @@ var	passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-var crypto = require('crypto');
-var flash = require('connect-flash');
-
 var UserRoutes = require('./routes/user');
 var QuestionRoutes = require('./routes/user');
 var HelperRoutes = require('./routes/helper');
-
 var User = require('./models/user');
-var	userModel= new User(mongoose, crypto);
-
 var Question = require('./models/question');
+
+var	userModel= new User(mongoose, crypto);
 var	questionModel = new Question(mongoose, crypto);
 
 var user = new UserRoutes(passport, LocalStrategy, _, userModel);
