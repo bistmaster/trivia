@@ -1,5 +1,5 @@
 // Model for User
-module.exports = function(mongoose, crypto) {
+module.exports = function(mongoose, crypto, sanitize) {
 
 	var UserSchema = new mongoose.Schema({ firstname: String, lastname: String, email: String, username: String, password: String, id: Number, date_register: { type: Date, default: Date.now } });
 	var User = mongoose.model('User', UserSchema);

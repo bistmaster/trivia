@@ -3,12 +3,12 @@ var express = require('express');
 var util = require('util')
 var	_ = require('underscore');
 var	mongoose = require('mongoose');
-var	expressValidator = require('express-validator');
+var sanitize = require('validator').sanitize;
+//var	expressValidator = require('express-validator');
 
 var	passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
-var GoogleStrategy = require('passport-google').Strategy;
 
 var crypto = require('crypto');
 var flash = require('connect-flash');
@@ -18,12 +18,12 @@ var QuestionRoutes = require('./routes/user');
 var HelperRoutes = require('./routes/helper');
 
 var User = require('./models/user');
-var	userModel= new User(mongoose, crypto);
+var	userModel= new User(mongoose, crypto, sanitize);
 
 var Question = require('./models/question');
-var	questionModel = new Question(mongoose, crypto);
+var	questionModel = new Question(mongoose, crypto, sanitize);
 
-var user = new UserRoutes(passport, LocalStrategy, _, userModel, expressValidator);
+var user = new UserRoutes(passport, LocalStrategy, _, userModel, sanitize);
 var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
 var helper = new HelperRoutes();
 var dbPath = 'mongodb://127.0.0.1/trivia';
@@ -34,11 +34,6 @@ var FB_CREDENTIALS = {
 		clientSecret : "4f94374127d7362bd1178cf9fabc20fd",
 		callbackURL : "/auth/facebook/callback"
 }		
-
-var GOOGLE = {
-	returnURL : '/auth/google/callback',
-	realm: 'localhost'
-};
 
 passport.serializeUser(function(user, done) {
     done(null, user);
@@ -56,7 +51,7 @@ app.configure(function () {
 	app.use(express.logger('dev'));
 	app.use(express.cookieParser());		
 	app.use(express.bodyParser());
-	app.use(expressValidator());
+	//app.use(expressValidator());
 	app.use(express.methodOverride());
 	app.use(express.session({ secret: 'keyboard cat' }));
 	app.use(flash());
@@ -77,9 +72,6 @@ app.post('/login', passport.authenticate('local', helper.redirect));
 // Login using facebook
 passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
 app.get('/auth/facebook', passport.authenticate('facebook', helper.redirect));
-// Login using Google
-passport.use(new GoogleStrategy(GOOGLE, user.setAuthenticationGoogle))
-app.get('/auth/google', passport.authenticate('google', helper.redirect));
 
 // Handle all the user interaction routes
 app.get('/', user.getIndex);

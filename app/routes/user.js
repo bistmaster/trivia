@@ -1,4 +1,4 @@
-module.exports = function(passport, LocalStrategy, _ , userModel, validator) { 
+module.exports = function(passport, LocalStrategy, _ , userModel, sanitize) { 
 	var self = this;
 
 
@@ -40,19 +40,10 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 		res.render('home', data);
 	};
 
-	self.postRegister = function (req, res) {
-		//console.log(req.sanitize);
-		req.sanitize('firstname').xss();
-		console.log('field ' + req.body.firstname);
-		
-		//console.log(req.body.firstname).entityEncode();
-		//req.sanitize(req.body.firstname.toString()).escape();
-		//req.onValidationError(function (msg) {
-        //Redirect the user with error 'msg'
-    	//});
-		//req.sanitize('firstname').escape();
-		//req.sanitize(req.body.firstname).escape();    	
-		/*userModel.saveUser(req.body, function(err, user){
+	self.postRegister = function (req, res) {  
+		var cleanQuery = self.sanitize(req.body);
+		console.log(cleanQuery);
+		/*userModel.saveUser(cleanQuery, function(err, user){
 			if(err instanceof Error){
 				res.statusCode = 500;
 				res.end('Something is wrong');			
@@ -79,10 +70,12 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 		res.redirect('/');
 	};
 
-	self.sanitize = function (req) {
-		_.each(req.body, function(elem, idx){	
-			rereq.sanitize(elem).entityDecode().escape();
+	self.sanitize = function (query) {
+		var items = [];
+		_.each(query, function(elem, idx){	
+		console.log(sanitize(elem).entityEncode());
 		});		
+		//return JSON.parse(items);
 	}; 
 
 	self.isAuthenticated = function (req, res, next) {
