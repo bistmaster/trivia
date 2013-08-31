@@ -15,8 +15,8 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 	};
 
 	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
-		console.log('OK got it ' + profile.id);
-		done(null, user);
+		console.log('OK got it ' + JSON.parse(profile));
+		//done(null, user);
 		/*userModel.findUserById(profile.id, profile, function(err, user) {
 			if (err instanceof Err) { return done(err); }
 		 	 	done(null, user);
