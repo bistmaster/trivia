@@ -71,7 +71,7 @@ passport.use(new LocalStrategy(user.setAuthenticationLocal));
 app.post('/login', passport.authenticate('local', helper.redirect));
 // Login using facebook
 passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
-app.get('/auth/facebook', passport.authenticate('facebook', helper.redirect));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', helper.redirect));
 
 // Handle all the user interaction routes
 app.get('/', user.getIndex);

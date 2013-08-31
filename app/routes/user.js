@@ -16,14 +16,14 @@ module.exports = function(passport, LocalStrategy, _ , userModel, sanitize) {
 
 	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
 		userModel.findUserById(profile.id, profile, function(err, user) {
-			if (err instanceof Err) { return done(err); }
+			if (err instanceof Error) { return done(err); }
 		 	 	done(null, user);
 		});
 	};
 
 	self.setAuthenticationGoogle = function(identifier, profile, done) {
 		userModel.findUserById(identifier, profile, function(err, user) {
-			if (err instanceof Err) { return done(err); }
+			if (err instanceof Error) { return done(err); }
 		 	 	done(null, user);
 		});
 	};
