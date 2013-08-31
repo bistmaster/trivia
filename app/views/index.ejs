@@ -52,7 +52,7 @@
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form class="form-horizontal" role="form" action="/register" method="POST">
+				<form class="form-horizontal" role="form" action="/register" method="POST" id="formRegister">
 				<div class="modal-header">
 				  <button type="button" class="close" data-dismiss="modal" data-target="#myModal" aria-hidden="true">&times;</button>
 				  <h4 class="modal-title" align='left'>Register</h4>
@@ -99,13 +99,14 @@
 
 				<div class="modal-footer">
 				  <button type="button" class="btn btn-default" data-dismiss="modal" data-target="#myModal">Close</button>
-				  	<input type="submit" class="btn btn-primary" value="Create"/>
+				  <input type="submit" class="btn btn-primary" value="Create" id="createBtn"/>
 				</div>
 				</form>
 			</div>
 		</div>	
 	</div>	
-	<!-- Register Modal -->
-
+<script type="text/javascript" src="/js/jquery.js"></script>	
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
 </body>
 </html>

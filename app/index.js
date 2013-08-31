@@ -66,7 +66,7 @@ app.configure(function () {
 	passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
 
 	mongoose.connect(config.dbPath, function onMongooseError(err){
-		if (err) throw err;
+		if (err instanceof Error) throw err;
 		console.log('Connected to db');
 	});
 
