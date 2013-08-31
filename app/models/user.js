@@ -34,18 +34,25 @@ module.exports = function(mongoose, crypto) {
 		});
 	};
 
-	self.findUserById = function(id, profile, callback) {
-		console.log('profile ' + fbProfile);
-		User.findOne({_id : id}, function(err, oldUser){
-			if(oldUser) { 
-				callback(null, oldUser); 
-			} else {  			
-				//var newUser = new User();
-				//newUser.firstname = fbProfile.id;
-				//newUser.lastname = 
-				callback(null, user);
-			}
-		});		
+	self.findUserById = function(id, profile, callback) {		
+		try {
+			var json = JSON.parse(profile);
+			console.log(json);
+			/*User.findOne({_id : id}, function(err, oldUser){
+				if(oldUser) { 
+					callback(null, oldUser); 
+				} else {  			
+					//var newUser = new User();
+					//newUser.firstname = fbProfile.id;
+					//newUser.lastname = 
+					callback(null, user);
+				}
+			});*/			
+		} catch(ex) {
+			console.log(ex); // ADD THIS LINE
+			done(new Error('Failed to parse user profile'));
+		} 
+		
 	};
 
 	self.updateUser = function(id, query, callback){
