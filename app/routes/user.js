@@ -1,7 +1,6 @@
-module.exports = function(passport, LocalStrategy, _ , userModel, sanitize) { 
+module.exports = function(passport, LocalStrategy, _ , userModel) { 
+
 	var self = this;
-
-
 
 	self.setAuthenticationLocal = function (username, password, done) {
 		userModel.findUser(username, password, function (err, user) {
@@ -42,13 +41,11 @@ module.exports = function(passport, LocalStrategy, _ , userModel, sanitize) {
 
 	self.postRegister = function (req, res) {  
 		var cleanQuery = self.sanitize(req.body);
-		console.log(cleanQuery);
-		/*userModel.saveUser(cleanQuery, function(err, user){
+		userModel.saveUser(cleanQuery, function(err, user){
 			if(err instanceof Error){
 				res.statusCode = 500;
-				res.end('Something is wrong');			
+				res.end('Something is wrong');// Todo: redirect user if error occur create a helper class			
 			} else {
-				//res.redirect('/');
 				req.login(user, function(err){
 					if(err) { return err; }	
 					else {
@@ -57,7 +54,7 @@ module.exports = function(passport, LocalStrategy, _ , userModel, sanitize) {
 					}
 				});
 			}
-		});*/
+		});
 	};
 
 	self.getLogin = function (req, res) {
@@ -71,11 +68,11 @@ module.exports = function(passport, LocalStrategy, _ , userModel, sanitize) {
 	};
 
 	self.sanitize = function (query) {
-		var items = [];
-		_.each(query, function(elem, idx){	
-		console.log(sanitize(elem).entityEncode());
-		});		
-		//return JSON.parse(items);
+		var items = {};
+		_.map(query, function(elem, key) {	
+			items[key] = _(elem).stripTags();
+		});	
+		return items;	
 	}; 
 
 	self.isAuthenticated = function (req, res, next) {

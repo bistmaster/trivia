@@ -1,5 +1,5 @@
 // Model for User
-module.exports = function(mongoose, crypto, sanitize) {
+module.exports = function(mongoose, crypto) {
 
 	var UserSchema = new mongoose.Schema({ firstname: String, lastname: String, email: String, username: String, password: String, id: Number, date_register: { type: Date, default: Date.now } });
 	var User = mongoose.model('User', UserSchema);
@@ -40,6 +40,7 @@ module.exports = function(mongoose, crypto, sanitize) {
 				callback(null, oldUser); 
 			} else {
 				var fbUser = new User();
+				fbUser._id = new ObjectID(id);
 				fbUser.firstname = profile.name.givenName;
 				fbUser.lastname = profile.name.familyName;
 				fbUser.save(function onSaveError(err){

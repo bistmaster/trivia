@@ -3,8 +3,11 @@ var express = require('express');
 var util = require('util')
 var	_ = require('underscore');
 var	mongoose = require('mongoose');
-var sanitize = require('validator').sanitize;
-//var	expressValidator = require('express-validator');
+
+var _ = require('underscore');
+_.str = require('underscore.string');
+_.mixin(_.str.exports());
+_.str.include('Underscore.string', 'string'); 
 
 var	passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -18,12 +21,12 @@ var QuestionRoutes = require('./routes/user');
 var HelperRoutes = require('./routes/helper');
 
 var User = require('./models/user');
-var	userModel= new User(mongoose, crypto, sanitize);
+var	userModel= new User(mongoose, crypto);
 
 var Question = require('./models/question');
-var	questionModel = new Question(mongoose, crypto, sanitize);
+var	questionModel = new Question(mongoose, crypto);
 
-var user = new UserRoutes(passport, LocalStrategy, _, userModel, sanitize);
+var user = new UserRoutes(passport, LocalStrategy, _, userModel);
 var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
 var helper = new HelperRoutes();
 var dbPath = 'mongodb://127.0.0.1/trivia';
@@ -51,7 +54,6 @@ app.configure(function () {
 	app.use(express.logger('dev'));
 	app.use(express.cookieParser());		
 	app.use(express.bodyParser());
-	//app.use(expressValidator());
 	app.use(express.methodOverride());
 	app.use(express.session({ secret: 'keyboard cat' }));
 	app.use(flash());
