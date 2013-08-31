@@ -35,7 +35,7 @@ module.exports = function(mongoose, crypto) {
 	};
 
 	self.findUserById = function(id, profile, callback) {
-		console.log('profile ' + fbProfile);
+		console.log('profile ' + profile);
 		User.findOne({_id : id}, function(err, oldUser){
 			if(oldUser) { 
 				callback(null, oldUser); 
