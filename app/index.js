@@ -37,16 +37,19 @@ var FB_CREDENTIALS = {
 		callbackURL : "/auth/facebook"
 }		
 
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
 
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
 
 var app = express();
 app.configure(function () {
+
+	passport.serializeUser(function(user, done) {
+	    done(null, user);
+	});
+
+	passport.deserializeUser(function(user, done) {
+	    done(null, user);
+	});	
+
 	app.set('view engine', 'ejs'); 
 	app.set('views', __dirname + '/views');
 	app.use(express.static(__dirname + '/public/'));
@@ -59,7 +62,12 @@ app.configure(function () {
 	app.use(passport.initialize());
 	app.use(passport.session());
 	app.use(app.router);	
-	
+
+	//Login using saved users
+	passport.use(new LocalStrategy(user.setAuthenticationLocal));
+	// Login using facebook
+	passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
+
 	mongoose.connect(config.dbPath, function onMongooseError(err){
 		if (err) throw err;
 		console.log('Connected to db');
@@ -67,11 +75,8 @@ app.configure(function () {
 
 });	
 
-//Login using saved users
-passport.use(new LocalStrategy(user.setAuthenticationLocal));
+
 app.post('/login', passport.authenticate('local', helper.redirect));
-// Login using facebook
-passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
 app.get('/auth/facebook', passport.authenticate('facebook', helper.redirect));
 
 // Handle all the user interaction routes
@@ -82,8 +87,7 @@ app.post('/register', user.postRegister);
 app.get('/home', user.isAuthenticated, user.getHome);
 app.get('/logout', user.getLogout);
 
-
-//handle unavailable site
+//Redirect user if url is not found
 app.get('/*', helper.index);
 
 
