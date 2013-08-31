@@ -35,15 +35,20 @@ module.exports = function(mongoose, crypto) {
 	};
 
 	self.findUserById = function(id, profile, callback) {
-		console.log('profile ' + profile);
 		User.findOne({_id : id}, function(err, oldUser){
 			if(oldUser) { 
 				callback(null, oldUser); 
-			} else {  			
-				//var newUser = new User();
-				//newUser.firstname = fbProfile.id;
-				//newUser.lastname = 
-				callback(null, user);
+			} else {
+				var fbUser = new User();
+				fbUser.firstname = profile.name.givenName;
+				fbUser.lastname = profile.name.familyName;
+				fbUser.save(function onSaveError(err){
+					if(err) {
+						return callback(new Error('Unable to save Facebook User'));
+					} else {
+						return callback(null, fbUser);
+					}
+				});
 			}
 		});		
 	};

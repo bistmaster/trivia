@@ -15,12 +15,10 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 	};
 
 	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
-		console.log('OK got it ' + profile.id + '  , ' + profile.emails[0].value + ' , ' + profile.displayName);
-		//done(null, user);
-		/*userModel.findUserById(profile.id, profile, function(err, user) {
+		userModel.findUserById(profile.id, profile, function(err, user) {
 			if (err instanceof Err) { return done(err); }
 		 	 	done(null, user);
-		});*/
+		});
 	};
 
 	self.setAuthenticationGoogle = function(identifier, profile, done) {
