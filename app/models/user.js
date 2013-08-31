@@ -34,9 +34,9 @@ module.exports = function(mongoose, crypto) {
 		});
 	};
 
-	self.findUserById = function(fbProfile, callback) {
+	self.findUserById = function(id, profile, callback) {
 		console.log('profile', fbProfile);
-		User.findOne({_id : fbProfile.id}, function(err, oldUser){
+		User.findOne({_id : id}, function(err, oldUser){
 			if(oldUser) { 
 				callback(null, oldUser); 
 			} else {  			
@@ -48,8 +48,8 @@ module.exports = function(mongoose, crypto) {
 		});		
 	};
 
-	self.updateUser = function(id, query){
-		//User.findAndModify(_id: id,)
+	self.updateUser = function(id, query, callback){
+		User.findAndModify();
 	};
 
 	self.deleteUser = function(id){

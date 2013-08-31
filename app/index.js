@@ -4,9 +4,11 @@ var util = require('util')
 var	_ = require('underscore');
 var	mongoose = require('mongoose');
 var	expressValidator = require('express-validator');
+
 var	passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google').Strategy;
 
 var crypto = require('crypto');
 var flash = require('connect-flash');
@@ -32,6 +34,11 @@ var FB_CREDENTIALS = {
 		clientSecret : "4f94374127d7362bd1178cf9fabc20fd",
 		callbackURL : "/auth/facebook/callback"
 }		
+
+var GOOGLE = {
+	returnURL : '/auth/google/callback',
+	realm: 'localhost'
+};
 
 passport.serializeUser(function(user, done) {
     done(null, user);
@@ -66,17 +73,22 @@ app.configure(function () {
 
 //Login using saved users
 passport.use(new LocalStrategy(user.setAuthenticationLocal));
+app.post('/login', passport.authenticate('local', helper.redirect));
 // Login using facebook
 passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
+app.get('/auth/facebook', passport.authenticate('facebook', helper.redirect));
+// Login using Google
+passport.use(new GoogleStrategy(GOOGLE, user.setAuthenticationGoogle))
+app.get('/auth/google', passport.authenticate('google', helper.redirect));
 
 // Handle all the user interaction routes
 app.get('/', user.getIndex);
 app.get('/login', user.getLogin);
-app.post('/login', passport.authenticate('local', helper.redirect));
 app.post('/register', user.postRegister);
+//app.post('/update/:id', )
 app.get('/home', user.isAuthenticated, user.getHome);
 app.get('/logout', user.getLogout);
-app.get('/auth/facebook/callback', passport.authenticate('facebook', helper.redirect));
+
 
 //handle unavailable site
 app.get('/*', helper.index);

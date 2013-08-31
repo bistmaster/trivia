@@ -15,13 +15,18 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 	};
 
 	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
-		userModel.findUserById(profile, function(err, user) {
+		userModel.findUserById(profile.id, profile, function(err, user) {
 			if (err instanceof Err) { return done(err); }
 		 	 	done(null, user);
 		});
 	};
 
-
+	self.setAuthenticationGoogle = function(identifier, profile, done) {
+		userModel.findUserById(identifier, profile, function(err, user) {
+			if (err instanceof Err) { return done(err); }
+		 	 	done(null, user);
+		});
+	};
 
 	self.getIndex = function (req, res) {
 		var data = { title: 'Online Real-time Trivia', authenticated: false };
@@ -36,14 +41,18 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 	};
 
 	self.postRegister = function (req, res) {
-		console.log(req.sanitize);
-
-		req.onValidationError(function (msg) {
+		//console.log(req.sanitize);
+		req.sanitize('firstname').xss();
+		console.log('field ' + req.body.firstname);
+		
+		//console.log(req.body.firstname).entityEncode();
+		//req.sanitize(req.body.firstname.toString()).escape();
+		//req.onValidationError(function (msg) {
         //Redirect the user with error 'msg'
-    	});
-		req.sanitize('firstname').escape();
-		req.sanitize(req.body.firstname).escape();    	
-		userModel.saveUser(req.body, function(err, user){
+    	//});
+		//req.sanitize('firstname').escape();
+		//req.sanitize(req.body.firstname).escape();    	
+		/*userModel.saveUser(req.body, function(err, user){
 			if(err instanceof Error){
 				res.statusCode = 500;
 				res.end('Something is wrong');			
@@ -57,7 +66,7 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
 					}
 				});
 			}
-		});
+		});*/
 	};
 
 	self.getLogin = function (req, res) {
@@ -82,6 +91,13 @@ module.exports = function(passport, LocalStrategy, _ , userModel, validator) {
   			return next(); 
   		}
  		res.redirect('/login')
+	};
+
+	self.getUpdateUser = function (req, res) {
+		var id = req.param(id, '');
+		userModel.updateUser(id, query, function(err, user){
+
+		});
 	};
 
 }
