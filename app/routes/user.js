@@ -2,13 +2,10 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 
 	var self = this;
 
-	self.setAuthenticationLocal = function (username, password, done) {
+	self.setAuthenticationLocal = function(username, password, done) {
 		userModel.findUser(username, password, function (err, user) {
-			if (err) { return done(err); }
-			if (!user) {
-			return done(null, false, { message: 'Incorrect username.' });
-			}
-			return done(null, user);
+			if (err instanceof Error) { return done(err); }
+			done(null, user);
 
 		});
 	};
@@ -16,14 +13,14 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
 		userModel.findUserById(profile.id, profile, function(err, user) {
 			if (err instanceof Error) { return done(err); }
-		 	 	done(null, user);
+		 	done(null, user);
 		});
 	};
 
 	self.setAuthenticationGoogle = function(identifier, profile, done) {
 		userModel.findUserById(identifier, profile, function(err, user) {
 			if (err instanceof Error) { return done(err); }
-		 	 	done(null, user);
+		 	done(null, user);
 		});
 	};
 

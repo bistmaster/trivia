@@ -29,13 +29,12 @@ var	questionModel = new Question(mongoose, crypto);
 var user = new UserRoutes(passport, LocalStrategy, _, userModel);
 var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
 var helper = new HelperRoutes();
-var dbPath = 'mongodb://127.0.0.1/trivia';
-var port = 9999;
+var config = {  dbPath : 'mongodb://127.0.0.1/trivia', port : 9999 };
 
 var FB_CREDENTIALS = {
 		clientID : "515120998569772",
 		clientSecret : "4f94374127d7362bd1178cf9fabc20fd",
-		callbackURL : "/auth/facebook/callback"
+		callbackURL : "/auth/facebook"
 }		
 
 passport.serializeUser(function(user, done) {
@@ -61,7 +60,7 @@ app.configure(function () {
 	app.use(passport.session());
 	app.use(app.router);	
 	
-	mongoose.connect(dbPath, function onMongooseError(err){
+	mongoose.connect(config.dbPath, function onMongooseError(err){
 		if (err) throw err;
 		console.log('Connected to db');
 	});
@@ -73,7 +72,7 @@ passport.use(new LocalStrategy(user.setAuthenticationLocal));
 app.post('/login', passport.authenticate('local', helper.redirect));
 // Login using facebook
 passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', helper.redirect));
+app.get('/auth/facebook', passport.authenticate('facebook', helper.redirect));
 
 // Handle all the user interaction routes
 app.get('/', user.getIndex);
@@ -88,7 +87,7 @@ app.get('/logout', user.getLogout);
 app.get('/*', helper.index);
 
 
-app.listen(port, function(){
-	console.log('Listening on localhost:' + port); 
+app.listen(config.port, function(){
+	console.log('Listening on localhost:' + config.port); 
 });
 

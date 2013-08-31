@@ -6,13 +6,12 @@ module.exports = function(mongoose, crypto) {
 	var self = this;
 
 	self.saveUser = function(query, callback) {
-		var hash = crypto.createHash('sha256');
 		var user = new User();
 		user.firstname = query.firstname;
 		user.lastname = query.lastname;
 		user.email = query.email;
 		user.username = query.username;
-		user.password = hash.update(query.password).digest('hex');
+		user.password = self.encryptPassword(query.password);
 		user.save(function(err) {
 			if(err){
 				return callback(new Error('Cannot save to database'), false);
@@ -22,9 +21,8 @@ module.exports = function(mongoose, crypto) {
 		});
 	};
 
-	self.findUser = function(username, password, callback) {
-		var hash = crypto.createHash('sha256');
-		var hashPassword = hash.update(password).digest('hex');		
+	self.findUser = function(username, password, callback) {	
+		var hashPassword = self.encryptPassword(password);		
 		User.findOne({username: username, password: hashPassword}, function(err, user){
 			if(err) { 
 				callback(err, false); 
@@ -52,6 +50,11 @@ module.exports = function(mongoose, crypto) {
 				});
 			}
 		});		
+	};
+
+	self.encryptPassword = function(textPassword){
+		var hash = crypto.createHash('sha256');
+		return hash.update(textPassword).digest('hex');
 	};
 
 	self.updateUser = function(id, query, callback){
