@@ -79,7 +79,7 @@ passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook
 app.get('/auth/facebook', passport.authenticate('facebook', helper.redirect));
 // Login using Google
 passport.use(new GoogleStrategy(GOOGLE, user.setAuthenticationGoogle))
-app.get('/auth/google', passport.authenticate('google', helper.redirect));
+app.get('/auth/google/callback', passport.authenticate('google', helper.redirect));
 
 // Handle all the user interaction routes
 app.get('/', user.getIndex);
