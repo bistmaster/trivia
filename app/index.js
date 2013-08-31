@@ -37,7 +37,7 @@ var FB_CREDENTIALS = {
 
 var GOOGLE = {
 	returnURL : '/auth/google/callback',
-	realm: 'localhost'
+	realm: 'http://http://54.251.186.7:9999'
 };
 
 passport.serializeUser(function(user, done) {
