@@ -38,7 +38,7 @@ module.exports = function(mongoose, crypto) {
 				callback(null, oldUser); 
 			} else {
 				var fbUser = new User();
-				fbUser._id = new ObjectId(id);
+				fbUser._id = mongoose.Types.ObjectId(id);
 				fbUser.firstname = profile.name.givenName;
 				fbUser.lastname = profile.name.familyName;
 				fbUser.save(function onSaveError(err){
