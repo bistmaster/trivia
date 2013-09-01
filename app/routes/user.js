@@ -11,10 +11,11 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 	};
 
 	self.setAuthenticationFacebook = function(accessToken, refreshToken, profile, done) {
-		userModel.findUserById(profile.id, profile, function(err, user) {
+		console.log('ID ' + profile.id)
+		/*userModel.findUserById(profile.id, profile, function(err, user) {
 			if (err instanceof Error) { return done(err); }
 		 	done(null, user);
-		});
+		});*/
 	};
 
 	self.setAuthenticationGoogle = function(identifier, profile, done) {
