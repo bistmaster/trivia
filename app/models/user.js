@@ -34,6 +34,7 @@ module.exports = function(mongoose, crypto) {
 
 	self.findUserById = function(id, profile, callback) {
 		User.findById({id : id}, function(err, oldUser){
+			console.log('found ' + oldUser._id);
 			if(oldUser) { 
 				callback(null, oldUser); 
 			} else {
