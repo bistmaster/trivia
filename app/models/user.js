@@ -38,8 +38,7 @@ module.exports = function(mongoose, crypto) {
 				callback(null, oldUser); 
 			} else {
 				var user = new User();
-				var objectId = mongoose.Types.objectId.fromString(id);
-				user.id = objectId;
+				user._id = id;
 				user.firstname = profile.name.givenName;
 				user.lastname = profile.name.familyName;
 				user.save(function onSaveError(err){
