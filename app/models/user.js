@@ -1,7 +1,7 @@
 // Model for User
 module.exports = function(mongoose, crypto) {
 
-	var UserSchema = new mongoose.Schema({ firstname: String, lastname: String, email: String, username: String, password: String, id: Number, date_register: { type: Date, default: Date.now } });
+	var UserSchema = new mongoose.Schema({ _id: Number,firstname: String, lastname: String, email: String, username: String, password: String, id: Number, date_register: { type: Date, default: Date.now } });
 	var User = mongoose.model('User', UserSchema);
 	var self = this;
 
@@ -38,8 +38,7 @@ module.exports = function(mongoose, crypto) {
 				callback(null, oldUser); 
 			} else {
 				var user = new User();
-				var objectId = mongoose.Types.objectId.fromString(id);
-				user.id = objectId;
+				user._id = id;
 				user.firstname = profile.name.givenName;
 				user.lastname = profile.name.familyName;
 				user.save(function onSaveError(err){
