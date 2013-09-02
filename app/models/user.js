@@ -1,7 +1,7 @@
 // Model for User
 module.exports = function(mongoose, crypto) {
 
-	var UserSchema = new mongoose.Schema({ _id: Number,firstname: String, lastname: String, email: String, username: String, password: String, id: Number, date_register: { type: Date, default: Date.now } });
+	var UserSchema = new mongoose.Schema({ _id: Number, firstname: String, lastname: String, email: String, username: String, password: String, id: Number, date_register: { type: Date, default: Date.now } });
 	var User = mongoose.model('User', UserSchema);
 	var self = this;
 
@@ -33,10 +33,9 @@ module.exports = function(mongoose, crypto) {
 	};
 
 	self.findUserById = function(id, profile, callback) {
-		User.findById({id : id}, function(err, oldUser){
-			console.log('found ' + oldUser._id);
-			if(oldUser) { 
-				callback(null, oldUser); 
+		User.findById(id, function(err, oldUser){
+			if(err instanceof Error && !oldUser){
+			 	return callback(err);
 			} else {
 				var user = new User();
 				user._id = id;

@@ -86,5 +86,13 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 
 		});
 	};
+	//testing purpose only
+	self.getCheckId = function (req, res) {
+		console.log('Id ' + req.params.id);
+		userModel.findUserById(req.params.id, {}, function(err, user) {
+			if (err instanceof Error) { return console.error(err.message); }
+		 	res.end(user);
+		});
+	};
 
 }
