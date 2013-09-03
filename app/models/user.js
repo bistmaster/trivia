@@ -57,8 +57,11 @@ module.exports = function(mongoose, crypto) {
 		return hash.update(textPassword).digest('hex');
 	};
 
-	self.updateUser = function(id, query, callback){
-		User.findAndModify();
+	self.updateUserById = function(id, query, callback){
+		User.findByIdAndUpdate(id, { $set: query }, function(err, user){
+				if(err) { return callback(err); }
+				return callback(null, user);
+			});
 	};
 
 	self.deleteUser = function(id){
