@@ -34,18 +34,18 @@ module.exports = function(mongoose, crypto) {
 
 	self.findUserById = function(id, profile, callback) {
 		User.findById(id, function(err, oldUser){
-			if(err instanceof Error && !oldUser){
-			 	return callback(err);
+			if(oldUser){
+			 	return callback(null, oldUser);
 			} else {
 				var user = new User();
 				user._id = id;
 				user.firstname = profile.name.givenName;
 				user.lastname = profile.name.familyName;
-				user.save(function onSaveError(err){
+				user.save(function onSaveError(err, newUser, number){
 					if(err) {
-						return callback(new Error('Unable to save Facebook User'));
+						return callback(err);
 					} else {
-						return callback(null, user);
+						return callback(null, newUser);
 					}
 				});
 			}
