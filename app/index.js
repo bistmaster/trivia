@@ -34,8 +34,6 @@ var FB_CREDENTIALS = {
 		callbackURL : "/auth/facebook"
 }		
 
-
-
 var app = express();
 app.configure(function () {
 
@@ -80,7 +78,7 @@ app.get('/auth/facebook', passport.authenticate('facebook', helper.redirect));
 app.get('/', user.getIndex);
 app.get('/login', user.getLogin);
 app.post('/register', user.postRegister);
-//app.post('/update/:id', )
+app.post('/update', user.postUpdate);
 app.get('/home', user.isAuthenticated, user.getHome);
 app.get('/logout', user.getLogout);
 

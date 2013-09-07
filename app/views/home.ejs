@@ -19,6 +19,7 @@
 						</p>				
 				</ul>	
 		</div>	
+
 		<div class="divider">
 			<div class="panel panel-default">
 				<div class="panel-heading" id="headPanel">
@@ -26,9 +27,119 @@
 				</div>
 				<div class="panel-body">
 					<div class="chatBox" data-spy="scroll" data-target="#headPanel" id="chatBox">
-						<div class="row">
-							<div class="span-8 pull-left leftBox "></div>
-							<div class="span-4 pull-right rightBox"></div>
+						<div class="panel panel-default pull-left left-box">
+							<div class="panel-body">
+								<div class="table-left">
+								<h2>Achievements left</h2>
+								<table class="table">
+								<thead>
+								<tr>
+								  <th>#</th>
+								  <th>Name</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+								  <td>1</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>2</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>3</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>4</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>5</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								<tr>
+								  <td>6</td>
+								  <td>Something</td>
+								</tr>
+								</tbody>
+								</table>
+								</div>								
+							</div>
+						</div>
+						<div class="panel panel-default pull-right right-box">
+							<div class="panel-body">
+							<div class="table-right">
+								<table class="table">
+								<tbody>
+								<tr>
+								  <td>1</td>
+								</tr>
+								<tr>
+								  <td>2</td>
+								</tr>
+								<tr>
+								  <td>3</td>
+								</tr>
+								<tr>
+								  <td>4</td>
+								</tr>
+								<tr>
+								  <td>5</td>
+								</tr>
+								</tbody>
+								</table>
+								</div>	
+							</div>
 						</div>
 					</div>
 				</div>
@@ -50,10 +161,10 @@
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form class="form-horizontal" role="form" action="/register" method="POST">
+				<form class="form-horizontal" role="form" action="/update" method="POST">
 				<div class="modal-header">
 				  <button type="button" class="close" data-dismiss="modal" data-target="#myModal" aria-hidden="true">&times;</button>
-				  <h4 class="modal-title" align='left'>Register</h4>
+				  <h4 class="modal-title" align='left'>Profile Settings</h4>
 				</div>
 				
 				<div class="modal-body">
@@ -67,14 +178,14 @@
 					<div class="form-group">
 					<label for="lastname" class="col-lg-4 control-label">Lastname</label>
 						<div class="col-lg-8">
-							<% var textLname = (authenticated) ? profile.firstname : "" %>
+							<% var textLname = (authenticated) ? profile.lastname : "" %>
 						  	<input type="text" class="form-control" id="lastname" placeholder="Lastname" name="lastname" value="<%=textLname%>">
 						</div>
 					</div>	  
 					<div class="form-group">
 					<label for="email" class="col-lg-4 control-label">Email</label>
 						<div class="col-lg-8">
-							<% var textEmail = (authenticated) ? profile.firstname : "" %>
+							<% var textEmail = (authenticated) ? profile.email : "" %>
 						  	<input type="email" class="form-control" id="email" placeholder="Email" name="email" value="<%=textEmail%>">
 						</div>
 					</div>				  			
@@ -108,7 +219,8 @@
 	</div>		
 	<!-- Register Modal -->
 <script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/tooltip.js"></script>
 <script type="text/javascript" src="/js/popover.js"></script>
 <script type="text/javascript" src="/js/affix.js"></script>
 <script type="text/javascript" src="/js/alert.js"></script>
@@ -119,7 +231,6 @@
 <script type="text/javascript" src="/js/modal.js"></script>
 <script type="text/javascript" src="/js/scrollspy.js"></script>
 <script type="text/javascript" src="/js/tab.js"></script>
-<script type="text/javascript" src="/js/tooltip.js"></script>
 <script type="text/javascript" src="/js/transition.js"></script>
 </body>
 </html>

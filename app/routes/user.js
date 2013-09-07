@@ -40,8 +40,8 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 		var cleanQuery = self.sanitize(req.body);
 		userModel.saveUser(cleanQuery, function(err, user){
 			if(err instanceof Error){
-				res.statusCode = 500;
-				res.end('Something is wrong');// Todo: redirect user if error occur create a helper class			
+				var data = { title: 'Online Real-time Trivia'}
+				res.render('error', data); 
 			} else {
 				req.login(user, function(err){
 					if(err) { return err; }	
@@ -49,6 +49,25 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 						req.session.user = user;	
 						return res.redirect('/home');
 					}
+				});
+			}
+		});
+	};
+
+	self.postUpdate = function (req, res) {
+		var _id = req.session.user._id;
+		if(!_id){
+			res.redirect('/login');
+		}
+
+		var cleanQuery = self.sanitize(req.body);		
+		userModel.updateUser(_id, cleanQuery, function(err, user){
+			if(err instanceof Error){
+				var data = { title: 'Online Real-time Trivia'}
+				res.render('error', data); 
+			} else {
+					self.isAuthenticated(req, res, function(){
+					res.redirect('/home');
 				});
 			}
 		});
@@ -78,13 +97,6 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
   			return next(); 
   		}
  		res.redirect('/login')
-	};
-
-	self.getUpdateUser = function (req, res) {
-		var id = req.param(id, '');
-		userModel.updateUser(id, query, function(err, user){
-
-		});
 	};
 
 }

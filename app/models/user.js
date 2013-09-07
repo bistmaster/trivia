@@ -12,9 +12,9 @@ module.exports = function(mongoose, crypto) {
 		user.email = query.email;
 		user.username = query.username;
 		user.password = self.encryptPassword(query.password);
-		user.save(function(err) {
+		user.save(function onSave(err) {
 			if(err){
-				return callback(new Error('Cannot save to database'), false);
+				return callback(err, false);
 			} else {
 				return callback(true, user);
 			}
@@ -23,7 +23,7 @@ module.exports = function(mongoose, crypto) {
 
 	self.findUser = function(username, password, callback) {	
 		var hashPassword = self.encryptPassword(password);		
-		User.findOne({username: username, password: hashPassword}, function(err, user){
+		User.findOne({username: username, password: hashPassword}, function onFindOne(err, user){
 			if(err) { 
 				callback(err, false); 
 			} else {  			
@@ -33,32 +33,43 @@ module.exports = function(mongoose, crypto) {
 	};
 
 	self.findUserById = function(id, profile, callback) {
-		User.findOne({_id : id}, function(err, oldUser){
+		console.log('Profile id ' + id);
+		User.findOne({_id : id}, function onFindOne(err, oldUser){
 			if(oldUser) { 
 				callback(null, oldUser); 
 			} else {
 				var fbUser = new User();
-				fbUser._id = mongoose.Types.ObjectId(id);
-				fbUser.firstname = profile.name.givenName;
-				fbUser.lastname = profile.name.familyName;
-				fbUser.save(function onSaveError(err){
+				user._id = new ObjectId(id);
+				user.firstname = profile.name.givenName;
+				user.lastname = profile.name.familyName;
+				user.save(function onSaveError(err, userReturn, numberAffected){
 					if(err) {
-						return callback(new Error('Unable to save Facebook User'));
+						return callback(err);
 					} else {
-						return callback(null, fbUser);
+						return callback(null, userReturn);
 					}
 				});
 			}
 		});		
 	};
 
+	self.updateUser = function(id, query, callback){
+		var userQuery = {};
+		userQuery.firstname = query.firstname;
+		userQuery.lastname = query.lastname;
+		userQuery.email = query.email;		
+		User.findByIdAndUpdate(id, userQuery, {new : true}, function onFindByIdIdUpdate(err, doc){
+			if(err) { 
+				return callback(err);
+			} else {
+				return callback(null, doc);
+			}	
+		});
+	};
+
 	self.encryptPassword = function(textPassword){
 		var hash = crypto.createHash('sha256');
 		return hash.update(textPassword).digest('hex');
-	};
-
-	self.updateUser = function(id, query, callback){
-		User.findAndModify();
 	};
 
 	self.deleteUser = function(id){
