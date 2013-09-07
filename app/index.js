@@ -82,6 +82,9 @@ app.post('/update', user.postUpdate);
 app.get('/home', user.isAuthenticated, user.getHome);
 app.get('/logout', user.getLogout);
 
+//
+app.get('/user/:id', user.getCheckId);
+
 //Redirect user if url is not found
 app.get('/*', helper.index);
 

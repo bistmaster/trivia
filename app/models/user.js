@@ -1,7 +1,7 @@
 // Model for User
 module.exports = function(mongoose, crypto) {
 
-	var UserSchema = new mongoose.Schema({ firstname: String, lastname: String, email: String, username: String, password: String, id: Number, date_register: { type: Date, default: Date.now } });
+	var UserSchema = new mongoose.Schema({ _id: Number, firstname: String, lastname: String, email: String, username: String, password: String, id: Number, date_register: { type: Date, default: Date.now } });
 	var User = mongoose.model('User', UserSchema);
 	var self = this;
 
@@ -33,20 +33,19 @@ module.exports = function(mongoose, crypto) {
 	};
 
 	self.findUserById = function(id, profile, callback) {
-		console.log('Profile id ' + id);
-		User.findOne({_id : id}, function onFindOne(err, oldUser){
-			if(oldUser) { 
-				callback(null, oldUser); 
+		User.findById(id, function(err, oldUser){
+			if(oldUser){
+			 	return callback(null, oldUser);
 			} else {
-				var fbUser = new User();
-				user._id = new ObjectId(id);
+				var user = new User();
+				user._id = id;
 				user.firstname = profile.name.givenName;
 				user.lastname = profile.name.familyName;
-				user.save(function onSaveError(err, userReturn, numberAffected){
+				user.save(function onSaveError(err, newUser, number){
 					if(err) {
 						return callback(err);
 					} else {
-						return callback(null, userReturn);
+						return callback(null, newUser);
 					}
 				});
 			}
@@ -70,6 +69,13 @@ module.exports = function(mongoose, crypto) {
 	self.encryptPassword = function(textPassword){
 		var hash = crypto.createHash('sha256');
 		return hash.update(textPassword).digest('hex');
+	};
+
+	self.updateUserById = function(id, query, callback){
+		User.findByIdAndUpdate(id, { $set: query }, function(err, user){
+				if(err) { return callback(err); }
+				return callback(null, user);
+			});
 	};
 
 	self.deleteUser = function(id){

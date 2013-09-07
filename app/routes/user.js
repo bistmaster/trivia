@@ -98,5 +98,4 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
   		}
  		res.redirect('/login')
 	};
-
 }
