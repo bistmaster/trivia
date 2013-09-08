@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html>
 <head>
 	<title><%=title%></title>
@@ -28,118 +28,10 @@
 				<div class="panel-body">
 					<div class="chatBox" data-spy="scroll" data-target="#headPanel" id="chatBox">
 						<div class="panel panel-default pull-left left-box">
-							<div class="panel-body">
-								<div class="table-left">
-								<h2>Achievements left</h2>
-								<table class="table">
-								<thead>
-								<tr>
-								  <th>#</th>
-								  <th>Name</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr>
-								  <td>1</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>2</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>3</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>4</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>5</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								<tr>
-								  <td>6</td>
-								  <td>Something</td>
-								</tr>
-								</tbody>
-								</table>
-								</div>								
-							</div>
+							<div class="panel-body"></div>
 						</div>
 						<div class="panel panel-default pull-right right-box">
-							<div class="panel-body">
-							<div class="table-right">
-								<table class="table">
-								<tbody>
-								<tr>
-								  <td>1</td>
-								</tr>
-								<tr>
-								  <td>2</td>
-								</tr>
-								<tr>
-								  <td>3</td>
-								</tr>
-								<tr>
-								  <td>4</td>
-								</tr>
-								<tr>
-								  <td>5</td>
-								</tr>
-								</tbody>
-								</table>
-								</div>	
-							</div>
+							<div class="panel-body"></div>
 						</div>
 					</div>
 				</div>
@@ -147,9 +39,9 @@
 					<div class="row">
 					 <div class="col-lg-12">
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Type your answer">
+							<input type="text" class="form-control" placeholder="Type your answer" id="answerTxt">
 						  	<span class="input-group-btn">
-						    	<button class="btn btn-default" type="button">Answer</button>
+						    	<button class="btn btn-default" type="button" id="answerBtn">Answer</button>
 						  	</span>
 						</div>
 					</div>
@@ -217,20 +109,24 @@
 			</div>
 		</div>	
 	</div>		
-	<!-- Register Modal -->
-<script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/tooltip.js"></script>
-<script type="text/javascript" src="/js/popover.js"></script>
-<script type="text/javascript" src="/js/affix.js"></script>
-<script type="text/javascript" src="/js/alert.js"></script>
-<script type="text/javascript" src="/js/button.js"></script>
-<script type="text/javascript" src="/js/carousel.js"></script>
-<script type="text/javascript" src="/js/collapse.js"></script>
-<script type="text/javascript" src="/js/dropdown.js"></script>
-<script type="text/javascript" src="/js/modal.js"></script>
-<script type="text/javascript" src="/js/scrollspy.js"></script>
-<script type="text/javascript" src="/js/tab.js"></script>
-<script type="text/javascript" src="/js/transition.js"></script>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/tooltip.js"></script>
+	<script type="text/javascript" src="/js/popover.js"></script>
+	<script type="text/javascript" src="/js/affix.js"></script>
+	<script type="text/javascript" src="/js/alert.js"></script>
+	<script type="text/javascript" src="/js/button.js"></script>
+	<script type="text/javascript" src="/js/carousel.js"></script>
+	<script type="text/javascript" src="/js/collapse.js"></script>
+	<script type="text/javascript" src="/js/dropdown.js"></script>
+	<script type="text/javascript" src="/js/modal.js"></script>
+	<script type="text/javascript" src="/js/scrollspy.js"></script>
+	<script type="text/javascript" src="/js/tab.js"></script>
+	<script type="text/javascript" src="/js/transition.js"></script>
+	<script type="text/javascript" src="/js/socket.io/socket.io.js"></script>
+	<script type="text/javascript"> 
+		var name = '<%=profile.firstname%>'; 
+	</script>
+	<script type="text/javascript" src="/js/chat_client.js"></script>	
 </body>
 </html>

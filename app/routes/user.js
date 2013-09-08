@@ -54,12 +54,11 @@ module.exports = function(passport, LocalStrategy, _ , userModel) {
 		});
 	};
 
-	self.postUpdate = function (req, res) {
+	self.postUpdate = function (req, res) {		
 		var _id = req.session.user._id;
 		if(!_id){
 			res.redirect('/login');
 		}
-
 		var cleanQuery = self.sanitize(req.body);		
 		userModel.updateUser(_id, cleanQuery, function(err, user){
 			if(err instanceof Error){

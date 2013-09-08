@@ -2,6 +2,8 @@
 var express = require('express');
 var util = require('util')
 var	_ = require('underscore');
+var sio = require('socket.io');
+var http = require('http');
 var	mongoose = require('mongoose');
 var crypto = require('crypto');
 var flash = require('connect-flash');
@@ -26,15 +28,20 @@ var	questionModel = new Question(mongoose, crypto);
 var user = new UserRoutes(passport, LocalStrategy, _, userModel);
 var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
 var helper = new HelperRoutes();
-var config = {  dbPath : 'mongodb://127.0.0.1/trivia', port : 9999 };
-
-var FB_CREDENTIALS = {
-		clientID : "515120998569772",
-		clientSecret : "4f94374127d7362bd1178cf9fabc20fd",
-		callbackURL : "/auth/facebook"
-}		
+var config = {  dbPath : 'mongodb://127.0.0.1/trivia', 
+				http_port : 9999, 
+				chat_port : 9090,
+				FB_CREDENTIALS : {
+					clientID : "515120998569772",
+					clientSecret : "4f94374127d7362bd1178cf9fabc20fd",
+					callbackURL : "/auth/facebook"
+				}
+			};
 
 var app = express();
+var chat_server = http.createServer(app).listen(config.chat_port);
+var chat = require('./routes/chat')(sio, chat_server);
+
 app.configure(function () {
 
 	passport.serializeUser(function(user, done) {
@@ -61,7 +68,7 @@ app.configure(function () {
 	//Login using saved users
 	passport.use(new LocalStrategy(user.setAuthenticationLocal));
 	// Login using facebook
-	passport.use(new FacebookStrategy(FB_CREDENTIALS, user.setAuthenticationFacebook));
+	passport.use(new FacebookStrategy(config.FB_CREDENTIALS, user.setAuthenticationFacebook));
 
 	mongoose.connect(config.dbPath, function onMongooseError(err){
 		if (err instanceof Error) throw err;
@@ -69,6 +76,7 @@ app.configure(function () {
 	});
 
 });	
+
 
 
 app.post('/login', passport.authenticate('local', helper.redirect));
@@ -82,14 +90,11 @@ app.post('/update', user.postUpdate);
 app.get('/home', user.isAuthenticated, user.getHome);
 app.get('/logout', user.getLogout);
 
-//
-app.get('/user/:id', user.getCheckId);
-
 //Redirect user if url is not found
 app.get('/*', helper.index);
 
 
-app.listen(config.port, function(){
-	console.log('Listening on localhost:' + config.port); 
+app.listen(config.http_port, function(){
+	console.log('Listening on localhost:' + config.http_port); 
 });
 
