@@ -7,6 +7,7 @@ var http = require('http');
 var	mongoose = require('mongoose');
 var crypto = require('crypto');
 var flash = require('connect-flash');
+var fs = require('fs');
 var _ = require('underscore');
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
@@ -21,6 +22,7 @@ var QuestionRoutes = require('./routes/user');
 var HelperRoutes = require('./routes/helper');
 var User = require('./models/user');
 var Question = require('./models/question');
+var clientio = require('socket.io-client');
 
 var	userModel= new User(mongoose, crypto);
 var	questionModel = new Question(mongoose, crypto);
@@ -30,17 +32,24 @@ var question = new QuestionRoutes(passport, LocalStrategy, _, questionModel);
 var helper = new HelperRoutes();
 var config = {  dbPath : 'mongodb://127.0.0.1/trivia', 
 				http_port : 9999, 
-				chat_port : 9090,
 				FB_CREDENTIALS : {
 					clientID : "515120998569772",
 					clientSecret : "4f94374127d7362bd1178cf9fabc20fd",
 					callbackURL : "/auth/facebook"
+				},
+				chat :{
+					port : 9090,
+					host: "http://192.168.1.101"
 				}
 			};
 
 var app = express();
-var chat_server = http.createServer(app).listen(config.chat_port);
-var chat = require('./routes/chat')(sio, chat_server);
+var chat_server = http.createServer(app).listen(config.chat.port);
+var Bot = require('./routes/bot');
+var trivia_bot = new Bot(clientio, fs, config.chat);
+var chat = require('./routes/chat')(sio, chat_server, _, trivia_bot);
+
+
 
 app.configure(function () {
 

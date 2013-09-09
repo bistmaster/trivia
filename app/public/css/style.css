@@ -65,14 +65,14 @@ body{
    margin-top: 10px;
 }
 
-.table-left {  
-   margin: -2px -7px 0px -7px;
+.box-left {  
+   margin: 9px 8px 0;
    height: 475px !important;
    overflow-y: scroll;
 }
 
-.table-right {  
-   margin: -2px -7px 0px -7px;
-   height: 475px !important;
+.box-right {  
+   margin: 9px 8px 0;
+   height: 434px !important;
    overflow-y: scroll;
 }
