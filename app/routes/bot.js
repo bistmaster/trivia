@@ -1,6 +1,6 @@
 module.exports = function(clientio, fs, config) {
 	var self = this;
-	var name, socket, answer, interval_id;
+	var name, socket, answer, interval_id, answered;
 
 	self.connect = function() {
 		this.answer = '';
@@ -17,10 +17,9 @@ module.exports = function(clientio, fs, config) {
 	};
 
 	self.checkAnswer = function(data){
-		console.log('Interval id ' + this.interval_id);
 		if(this.answer == data.answer){
 			this.socket.emit('messagebot', { name: this.name, message: "You got it right " + data.name + "!"});
-			clearInterval(this.interval_id);
+			this.answered = true;
 		}
 	};
 
@@ -30,13 +29,19 @@ module.exports = function(clientio, fs, config) {
 
 	self.startTrivia = function(){
 		var self = this;
-		var id = setInterval(function() {
-			var correct_answer = "lapu-lapu";
-			self.setAnswer(correct_answer);
-			self.socket.emit('trivia', {name: self.name ,question : "Who killed Magellan? ", answer: self.answer , points: 5});
-		}, 50000);
+		var data = { name: self.name ,question : "Who killed Magellan? ", answer: "lapu-lapu" , points: 5 };
+		this.setAnswer(data.answer);
 
-		self.setIntervalId(id);
+		var count = 0;
+		setInterval( function(_data) {
+			count++;
+			console.log('Value is : ' + self.answered + 'Count : ' + count);
+			if(count == 3 || self.answered == true){
+				clearInterval(self);
+			}
+			self.socket.emit('trivia', _data);
+		}, 50000, data);
+
 	};
 
 	self.setAnswer = function(correctAnswer) {

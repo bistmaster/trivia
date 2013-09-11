@@ -6,26 +6,27 @@
 	var answerBtn = $('#answerBtn');
 	var answerTxt = $('#answerTxt');
 	var chatBox = $('.left-box .box-left');
-	var chatList = $('.right-box .panel-body');
+	var chatList = $('.right-box .box-right');
+	var removeClientList = function(name){
+		$('.panel-body .box-right div b:contains('+name+')').remove();
+	}
 	
 
 	server.on('connect', function(data){
 		server.emit('join', name);
 
-		server.on('add_client', function(data){
-			chatList.append('<br><b>' + data.name + '</b>');
-		});
-		
 		server.on('addown', function(data){
-			chatList.append('<br><b>' + data.name + '</b>')
+			chatList.append('<div><b>' + data.name + '</b></div>');
+			server.emit('newuser', data);
+		});		
+
+		server.on('adduserclient', function(data){
+			chatList.append('<div><b>' + data.name + '</b></div>');
 		});
 
-		server.on('add_client_list', function(data){
-			chatList.remove();
-			console.log(data.names);
-			data.names.forEach(function(_name){
-				chatList.append('<br><b>' + _name + '</b>');
-			});
+		server.on('adduser', function(data){
+			chatList.append('<div><b>' + data.name + '</b></div>');
+			server.emit('newuserjoin', {name: name});
 		});
 
 		server.on('messagebot', function(data){
@@ -36,9 +37,6 @@
 		server.on('bot_greet', function(data){
 			chatBox.append('<br><b>' + data.name + '</b> : ' + data.message);
 			chatBox.animate({scrollTop : chatBox.prop("scrollHeight")}, 1);
-
-			chatList.append('<b>' + data.client_name + '</b><br>');
-			chatList.animate({scrollTop : chatList.prop("scrollHeight")}, 1);
 		});
 
 		server.on('bot_chat', function(data){
@@ -60,6 +58,14 @@
 			chatBox.append('<br><b>' + data.name + '</b> : ' + data.message);
 			chatBox.animate({scrollTop : chatBox.prop("scrollHeight")}, 1);
 		});	
+
+		server.on('disconnect', function(){
+		});
+
+		server.on('removeuser', function(data){
+			alert(data.name);	
+			removeClientList(data.name);
+		});
 
 		answerBtn.click(function(){
 			server.emit('message', { message: answerTxt.val()});

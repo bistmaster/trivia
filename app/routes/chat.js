@@ -4,12 +4,18 @@ module.exports = function(sio, chat_server, _, bot){
 	io.sockets.on('connection', function (client) {
 	bot.connect();  
 	  client.on('join', function(name){
-	  	client.set('nickname', name);
 	  	bot.greet(name);
-	  	bot.startTrivia();
-	  	//clients.push(name);
-	  	//client.emit('addown', {name: name});
-	  	//client.broadcast.emit('add_client_list', {names: clients});
+	  	client.set('nickname', name);
+	  	client.emit('addown', {name: name});
+	  	//bot.startTrivia();
+	  });
+
+	  client.on('newuser', function(data){
+	  	client.broadcast.emit('adduser', data);
+	  });
+
+	  client.on('newuserjoin', function(data){
+	  	client.broadcast.emit('adduserclient', data);
 	  });
 
 	  client.on('message', function (data) {
@@ -30,6 +36,14 @@ module.exports = function(sio, chat_server, _, bot){
 
 	  client.on('trivia', function(data){
 	  	client.broadcast.emit('bot_trivia', data);
+	  });
+
+	  client.on('disconnect', function(data){
+	  	console.log('disconected');
+	  	client.get('nickname', function(err, username){
+	  		console.log(username);
+	  		client.broadcast.emit('removeuser', {name: username});
+	  	});
 	  });
 
 	});
