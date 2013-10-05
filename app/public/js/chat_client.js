@@ -47,7 +47,12 @@
 		server.on('bot_trivia', function(data){
 			chatBox.append('<br><b>' + data.name + '</b> : ' + data.question);
 			chatBox.animate({scrollTop : chatBox.prop("scrollHeight")}, 1);
-		})
+		});
+
+		server.on('bot_noanswer', function(data){
+			chatBox.append('<br><b>' + data.name + '</b> : ' + data.message);
+			chatBox.animate({scrollTop : chatBox.prop("scrollHeight")}, 1);
+		});
 
 		server.on('chat', function (data) {
 			chatBox.append('<br><b>' + data.name + '</b> : ' + data.message);
@@ -60,10 +65,12 @@
 		});	
 
 		server.on('disconnect', function(){
+			//alert('client disconnected');
+			window.location.href = '/login'
 		});
 
 		server.on('removeuser', function(data){
-			alert(data.name);	
+			//alert(data.name);	
 			removeClientList(data.name);
 		});
 

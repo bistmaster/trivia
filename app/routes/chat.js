@@ -1,13 +1,16 @@
 module.exports = function(sio, chat_server, _, bot){
 	var io = sio.listen(chat_server);
-	var clients = [];
+	var initialize = 0;
 	io.sockets.on('connection', function (client) {
-	bot.connect();  
-	  client.on('join', function(name){
+		console.log(client);
+		bot.connect();  
+		client.on('join', function(name){
 	  	bot.greet(name);
 	  	client.set('nickname', name);
 	  	client.emit('addown', {name: name});
-	  	//bot.startTrivia();
+	  	initialize++;
+	  	if(initialize == 1)
+	  		bot.startTrivia();
 	  });
 
 	  client.on('newuser', function(data){
@@ -19,6 +22,9 @@ module.exports = function(sio, chat_server, _, bot){
 	  });
 
 	  client.on('message', function (data) {
+	  	if(data.message == 'start'){
+
+	  	}
 		client.get('nickname', function(err, name){
 			client.emit('message', { message: _(data.message).stripTags(), name: name});
 			bot.checkAnswer({ answer: _(data.message).stripTags(), name: name});

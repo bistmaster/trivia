@@ -39,7 +39,7 @@ var config = {  dbPath : 'mongodb://127.0.0.1/trivia',
 				},
 				chat :{
 					port : 9090,
-					host: "http://192.168.1.101"
+					host: "http://192.168.1.110"
 				}
 			};
 
@@ -48,8 +48,6 @@ var chat_server = http.createServer(app).listen(config.chat.port);
 var Bot = require('./routes/bot');
 var trivia_bot = new Bot(clientio, fs, config.chat);
 var chat = require('./routes/chat')(sio, chat_server, _, trivia_bot);
-
-
 
 app.configure(function () {
 
